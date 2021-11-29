@@ -15,7 +15,8 @@ func ConnectionDB() (conn *sql.DB) {
 	cadena := "b5ef58cbb8c454:0f5b1694@tcp(us-cdbr-east-04.cleardb.com)/heroku_ae44dd41be82398"
 	conn, err := sql.Open(driver, cadena)
 	if err != nil {
-		panic("error: " + err.Error())
+		fmt.Println(err.Error())
+		return
 	}
 	fmt.Println("conectado con exito")
 	return conn

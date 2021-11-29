@@ -28,12 +28,14 @@ func ReadUser(id string) ([]Models.User, error) {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
+
 		user.ID = iddb
 		user.EMAIL = email
 		user.NAME = name
-		users = append(users)
+
+		users = append(users, user)
 	}
-	fmt.Println(users)
+
 	return users, nil
 
 }

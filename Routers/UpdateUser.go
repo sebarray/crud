@@ -7,11 +7,16 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 	var user Models.User
 	reqbody, err := ioutil.ReadAll(r.Body)
+
 	if err != nil {
 		fmt.Fprintln(w, "error receiving client data")
 		return
@@ -19,13 +24,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(reqbody, &user)
 
-	DB.CreateUser(user)
-	//	if err != nil {
-	//		http.Error(w, "problems generating the user in the db"+err.Error(), http.StatusBadRequest)
-	//		return
-	//	}
+	err = DB.UpdateUser(user, vars["ID"])
 
+	if err != nil {
+		http.Error(w, "the user with that id does not exist"+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	user.ID, err = strconv.Atoi(vars["ID"])
 	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(user)
 }

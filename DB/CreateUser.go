@@ -5,8 +5,8 @@ import (
 )
 
 func CreateUser(user Models.User) error {
-
-	create, err := ConDB.Prepare(" INSERT INTO usuarios (NAME, EMAIL) VALUES (\"" + user.NAME + "\", \"" + user.EMAIL + "\")")
+	query := " INSERT INTO usuarios (NAME, EMAIL) VALUES (\"" + user.NAME + "\", \"" + user.EMAIL + "\")"
+	create, err := ConDB.Prepare(query)
 	if err != nil {
 		return err
 	}
