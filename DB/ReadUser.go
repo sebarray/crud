@@ -5,9 +5,9 @@ import (
 	"fmt"
 )
 
-func ReadUser(id string) ([]Models.User, error) {
-	var users []Models.User
-	var user Models.User
+func ReadUser(id string) ([]Models.Planta, error) {
+	var plantas []Models.Planta
+	var planta Models.Planta
 
 	where := ""
 
@@ -15,27 +15,22 @@ func ReadUser(id string) ([]Models.User, error) {
 		where = "where id=" + id
 	}
 
-	registry, err := ConDB.Query("SELECT * FROM usuarios " + where)
+	registry, err := ConDB.Query("SELECT * FROM plant " + where)
 	if err != nil {
 		fmt.Println(err.Error())
 		return nil, err
 	}
 
 	for registry.Next() {
-		var iddb int
-		var name, email string
-		err := registry.Scan(&iddb, &name, &email)
+
+		err := registry.Scan(&planta.ID, &planta.NAME, &planta.TIPO, &planta.HORA_RIEGO, &planta.HORA_LUZ)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
 
-		user.ID = iddb
-		user.EMAIL = email
-		user.NAME = name
-
-		users = append(users, user)
+		plantas = append(plantas, planta)
 	}
 
-	return users, nil
+	return plantas, nil
 
 }

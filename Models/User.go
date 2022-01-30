@@ -1,7 +1,9 @@
 package Models
 
-type User struct {
-	ID    int    `json:"ID"`
-	NAME  string `json:"name"`
-	EMAIL string `json:"email"`
+type Planta struct {
+	ID         int    `json:"id"`
+	NAME       string `json:"name"`
+	TIPO       string `json:"tipo"`
+	HORA_RIEGO string `json:"horariego"`
+	HORA_LUZ   string `json:"horaluz"`
 }
